@@ -1,74 +1,76 @@
-<?php 
+<?php
 
-class Client{
-	private $compte;
-	private $numero;
+class Clients
+{	
+	//Défini les attributs d'un client
+	private $num;
 	private $nom;
 	private $prenom;
 	private $adresse;
+	private $compte;
 
-	public function getCompte(){
+	//Assigne un compte existant à l'objet client
+	public function __construct($id, $compte)
+	{
+		$this->num = $id;
+		$this->compte = $compte;
+	}
+
+	//Assesseur modifie le nom et prénom
+	public function setClient($nouveauNom, $nouveauPrenom, $newAdresse)
+	{
+		$this->nom = $nouveauNom;
+		$this->prenom = $nouveauPrenom;
+		$this->adresse = $newAdresse;
+	}
+
+	//Assesseur retrouve le nom et prénom à partir des attributs private
+	public function getClient($item)
+	{
+		if($item == "all")
+		{
+			return $this->nom ." ".$this->prenom;
+		}
+
+		elseif($item == "nom")
+		{
+			return $this->nom;
+		}
+
+		elseif($item == "prenom")
+		{
+			return $this->prenom;
+		}
+
+		elseif($item == "adresse")
+		{
+			return $this->adresse;
+		}
+
+		elseif($item == "num")
+		{
+			return $this->num;
+		}
+	}
+
+	public function getCompte()
+	{
 		return $this->compte;
 	}
-	
-	public function getNumero(){
-		return $this->numero;
-	}	
-	public function getNom(){
-		return $this->nom;
-	}	
 
-	public function getPrenom(){
-		return $this->prenom;
+	//Affiche des informations en fonction des attributs de la classe clients et de l'assesseur de la classe Comptes
+	public function afficherSolde()
+	{
+		echo "<br/>Le solde du compte de ".$this->prenom." ".$this->nom." est de ".$this->compte->getSolde();
 	}
 
-	public function getAdresse(){
-		return $this->adresse;
+	//effectue un virement
+	public function virement($aCrediter, $somme)
+	{
+		$nouveauSolde = $aCrediter -> getCompte() -> getSolde() + $somme;
+		$aCrediter -> getCompte() -> setSolde($nouveauSolde);
+		$this -> getCompte() -> setSolde($this -> getCompte() -> getSolde() - $somme);
 	}
-
-	public function setNumero($pNumero){
-		$this->numero = $pNumero;
-	}
-	
-	public function setNom($pNom){
-		$this->nom = $pNom;
-	}	
-
-	public function setPrenom($pPrenom){
-		$this->prenom = $pPrenom;
-	}
-
-	public function setAdresse($pAdresse){
-		$this->adresse = $pAdresse;
-	}	
-
-
-	public function ajouterCompte($unCompte){
-		$this->compte = $unCompte;
-	echo "LOG : compte jouté <br>";	
-	}
-
-	// Le constructeur
-    public function __construct($compte, $numero, $nom, $prenom, $adresse){
-		$this->compte = $compte;
-		$this->numero = $numero;
-		$this->nom = $nom;
-		$this->prenom = $prenom;
-		$this->adresse = $adresse;
-    } 
-
-    public function afficherInformations(){
-    	echo "     Les informations du client <b>numero ". $this->numero ."</b> : <br> son nom : ". $this->nom ." <br> son compte est crédité de ". $this->compte->getSolde() .": <br><br>";
-    }
-
-    public function virement($pClient, $pSomme){
-    	$nouveauSolde = $pClient->getCompte()->getSolde() + $pSomme;
-    	$pClient->getCompte()->setSolde($nouveauSolde);
-    	$this->getCompte()->setSolde($this->getCompte()->getSolde() - $pSomme);
-    }
-
 }
-
-
 
 ?>
