@@ -1,71 +1,51 @@
-<?php 
+<?php
 
- class Compte{
-	// public $proprietaire;
-	private $numero;
+class Comptes
+{
+	private $num;
 	private $solde;
-	private $decouvert;
+	private $autoDec;
 
-	public function getNumero(){
-		return $this->numero;
-	}
-	
-	public function getSolde(){
-		return $this->solde;
-	}	
-
-	public function getDecouvert(){
-		return $this->decouvert;
-	}
-
-	public function setNumero($pNumero){
-		$this->numero = $pNumero;
-	}
-	
-	public function setSolde($pSolde){
-		$this->solde = $pSolde;
-	}	
-
-	public function setDecouvert($pDecouvert){
-		$this->decouvert = $pDecouvert;
-	}
-
-	public static $nombreDeCompte = 0;
-
-	public function __construct($numero, $solde, $decouvert){
-		$this->numero = $numero;
+	public function __construct($id, $solde, $decouvert)
+	{
+		$this->num = $id;
 		$this->solde = $solde;
-		$this->decouvert = $decouvert;
-
-		self::$nombreDeCompte++;
-    } 
-
-
-	public function crediterCompte($valeur){
-		$this->solde = $this->solde + $valeur;
+		$this->autoDec = $decouvert;
 	}
 
-	public function debiterCompte($valeur){
-		if ($this->solde - $valeur > $this->decouvert*-1) {
+	public function crediterCompte($valeur)
+	{
+		$this->solde = $this->solde + $valeur;
+		echo "<br/>Compte crédité";
+	}
+
+	public function debiterCompte($valeur)
+	{
+		if($this->solde >= $valeur - $this->autoDec)
+		{		
 			$this->solde = $this->solde - $valeur;
 			return true;
 		}
-		else{
+		else
+		{
 			return false;
 		}
 	}
 
-    public function afficherInformations(){
-    	echo "     Les informations du compte <b>numero ". $this->numero ."</b> : <br> son solde : ". $this->solde ." <br> son decouvert est de ". $this->decouvert .": <br><br>";
-    }
+	public function setSolde($valeur)
+	{
+		$this->solde = $valeur;
+	}
 
+	public function getSolde()
+	{
+		return $this->solde;
+	}
 
-    public function setProprietaire($proprietaire){
-    	$compte->proprietaire = $proprietaire;
-    }
-
+	public function getDec()
+	{
+		return $this->autoDec;
+	}
 }
-
-
 
 ?>
